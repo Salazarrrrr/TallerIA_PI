@@ -1,0 +1,18 @@
+<h2>Recomendador de Películas</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="prompt" placeholder="Describe tu película ideal" value="{{ prompt }}" style="width:300px;">
+    <button type="submit">Recomendar</button>
+</form>
+
+{% if recommended %}
+    <h3>Película recomendada:</h3>
+    <p><strong>{{ recommended.title }}</strong></p>
+    <p>Similitud: {{ similarity|floatformat:4 }}</p>
+    <p>{{ recommended.description }}</p>
+    {% if recommended.image %}
+        <img src="{{ recommended.image.url }}" width="200">
+    {% endif %}
+{% elif prompt %}
+    <p>No se encontró una película similar.</p>
+{% endif %}

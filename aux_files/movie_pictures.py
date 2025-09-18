@@ -29,7 +29,7 @@ response = client.images.generate(
   model="dall-e-3",
   prompt=f"Portada de la película {movies[np.random.randint(idx_movie)]['title']}",
   size="1024x1024",
-  quality="standard",
+  # quality="standard",  # Eliminado porque la API ya no lo soporta
   n=1,
 )
 

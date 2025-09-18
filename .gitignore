@@ -1,3 +1,25 @@
+# Archivos de entorno y llaves API
+*.env
+openAI.env
+api_keys.env
+
+# Base de datos y archivos generados
+db.sqlite3
+*.sqlite3
+
+# Archivos de migraciones y caché
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Archivos de medios y subidas
+media/
+
+# Otros archivos sensibles
+*.secret
+*.key
 /openAI.env
 /DjangoProjectBase2/*
 /TutorialGoogle/*
