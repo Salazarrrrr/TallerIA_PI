@@ -6,33 +6,29 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 class Command(BaseCommand):
-    help = "Generate and store embeddings for all movies in the database"
+    help = "Generar y almacenar embeddings para todas las películas en la base de datos"
 
     def handle(self, *args, **kwargs):
-        # ✅ Load OpenAI API key
         load_dotenv('../openAI.env')
         client = OpenAI(api_key=os.environ.get('openai_apikey'))
 
-        # ✅ Fetch all movies from the database
-        movies = Movie.objects.all()
-        self.stdout.write(f"Found {movies.count()} movies in the database")
+        peliculas = Movie.objects.all()
+        self.stdout.write(f"Se encontraron {peliculas.count()} películas en la base de datos")
 
-        def get_embedding(text):
-            response = client.embeddings.create(
-                input=[text],
+        def obtener_embedding(texto):
+            respuesta = client.embeddings.create(
+                input=[texto],
                 model="text-embedding-3-small"
             )
-            return np.array(response.data[0].embedding, dtype=np.float32)
+            return np.array(respuesta.data[0].embedding, dtype=np.float32)
 
-        # ✅ Iterate through movies and generate embeddings
-        for movie in movies:
+        for pelicula in peliculas:
             try:
-                emb = get_embedding(movie.description)
-                # ✅ Store embedding as binary in the database
-                movie.emb = emb.tobytes()
-                movie.save()
-                self.stdout.write(self.style.SUCCESS(f"✅ Embedding stored for: {movie.title}"))
+                emb = obtener_embedding(pelicula.description)
+                pelicula.emb = emb.tobytes()
+                pelicula.save()
+                self.stdout.write(self.style.SUCCESS(f"Embedding almacenado para: {pelicula.title}"))
             except Exception as e:
-                self.stderr.write(f"❌ Failed to generate embedding for {movie.title}: {e}")
+                self.stderr.write(f"No se pudo generar el embedding para {pelicula.title}: {e}")
 
-        self.stdout.write(self.style.SUCCESS("🎯 Finished generating embeddings for all movies"))
+        self.stdout.write(self.style.SUCCESS("Finalizó la generación de embeddings para todas las películas"))

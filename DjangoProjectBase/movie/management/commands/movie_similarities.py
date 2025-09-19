@@ -10,19 +10,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # Configuración fácil de modificar
-        MOVIE_TITLE_1 = "The Knockout"
-        MOVIE_TITLE_2 = "La captura"
-        PROMPT = "Pelea de boxeo en un ring con mucha gente animando y aventura"
+        MOVIE_TITLE_1 = "Frankenstein"
+        MOVIE_TITLE_2 = "The Electric Hotel"
+        PROMPT = "Pelicula de terror"
 
         # Cargar API key
         load_dotenv('../openAI.env')
         client = OpenAI(api_key=os.environ.get('openai_apikey'))
-
-
-        # Mostrar todos los títulos disponibles en la base de datos
-        self.stdout.write("\n=== Títulos disponibles en la base de datos ===")
-        for m in Movie.objects.all():
-            self.stdout.write(repr(m.title))
 
         # Buscar películas y manejar errores
         # Buscar películas de forma insensible a mayúsculas/minúsculas y espacios
